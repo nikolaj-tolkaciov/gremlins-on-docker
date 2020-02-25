@@ -15,4 +15,10 @@ The [Dockerfile](Dockerfile) was design based on the following projects:
 7. Run *docker-compose build gremlins-on-docker*
 7. Run *docker-compose up* (**Note** current restart policy is unless-stopped, so don't forget to stop container or change restart policy)
 
-<sub>Based on the [docker-protractor](https://github.com/hortonworks/docker-protractor).</sub>
+# Configuration options you should know about:
+- You can capture screenshots at the end of execution by changing false -> true for "takeScreenshotAtTheEnd" (protractor/configuration_gremlins.js)
+- You can turn on console output for every gremlin release at url change by changing false -> true for "debugGremlins" (protractor/configuration_gremlins.js)
+- You can tweak gremlin execution run length by changing "executionTimeInMinutes" value (protractor/configuration_gremlins.js)
+- You can tweak url check interval by changing "urlCheckIntervalInMinutes" value (protractor/configuration_gremlins.js). If your app under test is single page application you can match "urlCheckIntervalInMinutes" with "executionTimeInMinutes" in order not to use this feature
+
+<sub>Based on the [docker-protractor](https://github.com/hortonworks/docker-protractor)</sub>
