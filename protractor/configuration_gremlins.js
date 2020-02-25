@@ -25,7 +25,7 @@ exports.config = {
 	baseUrl: 'https://youtube.com',
 	params: {
 		executionTimeInMinutes: 2,
-		urlCheckIntervalInMinutes: 0.2,
+		urlCheckIntervalInMinutes: 0.1,
 		takeScreenshotAtTheEnd: false,
 		debugGremlins: false
 	}
