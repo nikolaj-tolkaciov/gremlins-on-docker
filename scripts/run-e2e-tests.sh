@@ -13,7 +13,7 @@ npm install
 Xvfb :10 -screen 0 1920x1080x24 2>&1 >/dev/null &
 
 echo "Running Protractor tests"
-DISPLAY=:10 npm run gremlin
+DISPLAY=:10 npm run release-gremlins
 export RESULT=$?
 
 echo "Protractor tests have done"

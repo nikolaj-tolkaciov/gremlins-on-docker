@@ -66,7 +66,7 @@ WORKDIR /protractor/
 # Copy the run sript/s from local folder to the container's related folder
 COPY /scripts/run-e2e-tests.sh /entrypoint.sh
 # Set the HOME environment variable for the test project
-ENV HOME=/protractor
+ENV HOME=/protractor/project
 # Set the file access permissions (read, write and access) recursively for the new folders
 RUN chmod -Rf 777 .
 # Container entry point
