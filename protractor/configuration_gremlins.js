@@ -28,4 +28,4 @@ exports.config = {
 		urlCheckIntervalInMinutes: 0.2,
 		takeScreenshotAtTheEnd: false
 	}
-};
+}
