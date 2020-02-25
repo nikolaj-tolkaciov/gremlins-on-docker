@@ -6,7 +6,7 @@
 # Run with:
 # docker-compose up
 
-protractor:
+gremlins-on-docker:
     build: .
     container_name: protractor
     privileged: true
