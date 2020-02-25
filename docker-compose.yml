@@ -1,7 +1,7 @@
-# Docker Compose file for ELK stack
+# Docker Compose file for Gremlins on docker
 
 # Build with:
-# docker-compose build elk
+# docker-compose build gremlins-on-docker
 
 # Run with:
 # docker-compose up
