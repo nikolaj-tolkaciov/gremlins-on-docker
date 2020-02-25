@@ -26,6 +26,7 @@ exports.config = {
 	params: {
 		executionTimeInMinutes: 2,
 		urlCheckIntervalInMinutes: 0.2,
-		takeScreenshotAtTheEnd: false
+		takeScreenshotAtTheEnd: false,
+		debugGremlins: false
 	}
 }

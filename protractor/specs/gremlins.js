@@ -19,7 +19,7 @@ describe('fuzz testing Youtube', function() {
 		for (let i = 0; i < browser.params.executionTimeInMinutes/browser.params.urlCheckIntervalInMinutes; i++) {	
 			browser.getCurrentUrl().then(async (url) => {
 				if(lastUrl !== url) {
-					console.log("Rerun Gremlins. Last URL" + lastUrl + " New URL" + url)
+					if(browser.params.debugGremlins) { console.log("\nRelease Gremlins \nLast URL: " + lastUrl + "\nNew URL: " + url)}
 					lastUrl = url
 					browser.executeScript("javascript:" + gremlinScript + generateExecutionScript(5))
 				}
