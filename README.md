@@ -1,4 +1,4 @@
-**This is a docker image for running Gremlins (https://github.com/marmelab/gremlins.js) from docker container with help of protractor to navigate to a specific web page, perform authentication and collect logs from browser.**
+**This is a docker image for running [Gremlins](https://github.com/marmelab/gremlins.js) from docker container with help of protractor to navigate to a specific web page, perform authentication and collect logs from browser.**
 
 The [Dockerfile](Dockerfile) was design based on the following projects:
 - [docker-protractor (hortonworks)](https://github.com/hortonworks/docker-protractor)
