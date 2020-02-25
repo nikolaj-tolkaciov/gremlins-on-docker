@@ -1,17 +1,16 @@
-# Docker Compose file for ELK stack
+# Docker Compose file for Gremlins on docker
 
 # Build with:
-# docker-compose build elk
+# docker-compose build gremlins-on-docker
 
 # Run with:
 # docker-compose up
 
-protractor:
+gremlins-on-docker:
     build: .
     container_name: protractor
     privileged: true
     shm_size: '512mb'
     restart: unless-stopped
-    command: configuration_youtube.js
     volumes:
-        - "protractor:/protractor/project/"
+        - "./protractor/:/protractor/project/"

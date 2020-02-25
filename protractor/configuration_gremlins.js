@@ -23,4 +23,10 @@ exports.config = {
 		'specs/gremlins.js'
 	],
 	baseUrl: 'https://youtube.com',
-};
+	params: {
+		executionTimeInMinutes: 2,
+		urlCheckIntervalInMinutes: 0.1,
+		takeScreenshotAtTheEnd: false,
+		debugGremlins: false
+	}
+}
