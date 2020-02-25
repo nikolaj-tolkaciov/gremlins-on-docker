@@ -2,7 +2,7 @@
 	"name": "youtube_protractor",
 	"version": "2.1.0",
 	"description": "List of dependent packages for youtube gremlin solution",
-	"repository": "-",
+	"repository": "https://github.com/nikolaj-tolkaciov/gremlins-on-docker",
 	"license": "MIT",
 	"dependencies": {
 		"fs": "0.0.1-security",
