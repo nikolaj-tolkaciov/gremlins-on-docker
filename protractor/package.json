@@ -1,0 +1,15 @@
+{
+	"name": "youtube_protractor",
+	"version": "2.1.0",
+	"description": "List of dependent packages for youtube gremlin solution",
+	"repository": "-",
+	"license": "MIT",
+	"dependencies": {
+		"fs": "0.0.1-security",
+		"mkdirp": "^0.5.1",
+		"protractor": "5.4.3",
+	},
+	"scripts": {
+		"release-gremlins": "node ./node_modules/protractor/bin/webdriver-manager update --standalone false --gecko false && node ./node_modules/protractor/bin/protractor ./configuration_gremlins.js"
+	}
+}
