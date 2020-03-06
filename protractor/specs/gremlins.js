@@ -2,7 +2,7 @@ const fs = require('fs')
 const mkdirp = require('mkdirp')
 const getDirName = require('path').dirname
 const os = require('os')
-const gremlinScript = require('../lib/grelmin_script')
+const gremlinScript = require('../lib/gremlin_script')
 
 const landingPageContent = by.css('[title="YouTube"]')
 			
