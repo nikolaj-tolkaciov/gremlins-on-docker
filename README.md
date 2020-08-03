@@ -20,5 +20,6 @@ The [Dockerfile](Dockerfile) was design based on the following projects:
 - You can turn on console output for every gremlin release at URL change by changing false -> true for "debugGremlins"
 - You can tweak gremlin execution run length by changing the "executionTimeInMinutes" value
 - You can tweak URL check interval by changing "urlCheckIntervalInMinutes" value. If your app under test is single page application you can match "urlCheckIntervalInMinutes" with "executionTimeInMinutes" in order not to use this feature
+- You can toggle full browser log writing to file by changing "storeFullLogs" parameter
 
 <sub>Based on the [docker-protractor](https://github.com/hortonworks/docker-protractor)</sub>
