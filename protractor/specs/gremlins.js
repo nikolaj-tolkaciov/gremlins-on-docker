@@ -59,7 +59,10 @@ describe('fuzz testing Youtube', function() {
 			
 			writeFile('logs/' + dateString + "/" + warningFile, warningsLogsString)
 			writeFile('logs/' + dateString + "/" + errorFile, errorsLogsString)
-			writeFile('logs/' + dateString + "/" + fullFile, fullLogsString)
+			
+			if(browser.params.storeFullLogs) {
+				writeFile('logs/' + dateString + "/" + fullFile, fullLogsString)
+			}
 		});
 
 		if(browser.params.takeScreenshotAtTheEnd) {
