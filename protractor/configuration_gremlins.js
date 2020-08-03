@@ -27,6 +27,7 @@ exports.config = {
 		executionTimeInMinutes: 2,
 		urlCheckIntervalInMinutes: 0.1,
 		takeScreenshotAtTheEnd: false,
-		debugGremlins: false
+		debugGremlins: false,
+		storeFullLogs: false
 	}
 }
