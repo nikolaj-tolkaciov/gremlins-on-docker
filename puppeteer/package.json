@@ -1,0 +1,29 @@
+{
+  "name": "puppeteer_for_gremlins",
+  "version": "0.1.0",
+  "description": "Pupeteer configured to run gremlins",
+  "main": "gremlins.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "puppeteer": "^5.2.1"
+  },
+  "devDependencies": {
+    "fs": "0.0.1-security",
+    "mkdirp": "^1.0.4"
+  },
+  "scripts": {
+    "test": "node gremlins.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "-"
+  },
+  "keywords": [
+    "gremlins",
+    "pupeteer"
+  ],
+  "author": "Nikolaj Tolkačiov",
+  "license": "ISC"
+}
