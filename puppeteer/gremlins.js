@@ -32,7 +32,13 @@ class errorMessage {
 
 try {
   (async () => {
-    const browser = await puppeteer.launch({headless: false})
+    const browser = await puppeteer.launch({
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage'
+      ]
+    })
     const page = await browser.newPage()
     await page.setViewport({ width: 1280, height: 800 })
     await page.goto('https://www.youtube.com', { waitUntil: 'networkidle2' })
