@@ -24,19 +24,19 @@ RUN apt-get update -qqy \
     ttf-ubuntu-font-family \
     libfreetype6 \
     libfontconfig \
-	libx11-6 \
-	libx11-xcb1 \
-	libxcb1 \
-	libxcomposite1 \
-	libxcursor1 \
-	libxdamage1 \
-	libxext6 \
-	libxfixes3 \
-	libxi6 \
-	libxrandr2 \
-	libxrender1 \
-	libxss1 \
-	libxtst6
+    libx11-6 \
+    libx11-xcb1 \
+    libxcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxi6 \
+    libxrandr2 \
+    libxrender1 \
+    libxss1 \
+    libxtst6
 
 # Nodejs 10 with npm install
 # https://github.com/nodesource/distributions#installation-instructions
