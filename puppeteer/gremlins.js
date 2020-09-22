@@ -6,6 +6,7 @@ const os = require('os')
 const gremlinScript = require('./src/gremlin_script')
 
 const settings = {
+  baseUrl: 'https://www.youtube.com',
   executionTimeInMinutes: 0.5,
   urlCheckIntervalInMinutes: 0.1,
   debugGremlins: true,
@@ -41,9 +42,11 @@ try {
     })
     const page = await browser.newPage()
     await page.setViewport({ width: 1280, height: 800 })
-    await page.goto('https://www.youtube.com', { waitUntil: 'networkidle2' })
+    await page.goto(settings.baseUrl, { waitUntil: 'networkidle2' })
 
     registerListeners(page)
+    //Add any navigation or login steps bellow
+
     await executeGremlins(page)
     await storeLogsAndScreenshot(page)
     
