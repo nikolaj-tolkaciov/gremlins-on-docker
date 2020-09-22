@@ -7,15 +7,14 @@ The [Dockerfile](Dockerfile) was design based on the following projects:
 
 # How to use Gremlins on docker container image:
 1. Clone this repo
-2. Open "protractor/configuration_gremlins.js" file in a preferred text editor or IDE
+2. Open "puppeteer/gremlins.js" file in a preferred text editor or IDE
 3. Change "baseUrl" variable with your application's URL
-4. (Optional) Open "protractor/specs/gremlins.js" file in a preferred text editor or IDE
-5. (Optional) Modify "should navigate to website and login" test (or create new subsequent step for this purpose) add authentification steps if your application requires it
-6. Navigate to the cloned repo in your local machine with CMD/bash
-7. Run *docker-compose build gremlins-on-docker*
-8. Run *docker-compose up* (**Note** current restart policy is unless-stopped, so don't forget to stop container or change restart policy)
+4. (Optional) Add authentification steps if your application requires it under "//Add any navigation or login steps bellow" comment
+5. Navigate to the cloned repo in your local machine with CMD/bash
+6. Run *docker-compose build gremlins-on-docker*
+7. Run *docker-compose up* (**Note** current restart policy is unless-stopped, so don't forget to stop container or change restart policy)
 
-# configuration_gremlins.js options you should know about:
+# gremlins.js settings you should know about:
 - You can capture screenshots at the end of execution by changing false -> true for "takeScreenshotAtTheEnd"
 - You can turn on console output for every gremlin release at URL change by changing false -> true for "debugGremlins"
 - You can tweak gremlin execution run length by changing the "executionTimeInMinutes" value
