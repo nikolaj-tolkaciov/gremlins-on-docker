@@ -23,7 +23,20 @@ RUN apt-get update -qqy \
     xfonts-scalable \
     ttf-ubuntu-font-family \
     libfreetype6 \
-    libfontconfig
+    libfontconfig \
+    libx11-6 \
+    libx11-xcb1 \
+    libxcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxi6 \
+    libxrandr2 \
+    libxrender1 \
+    libxss1 \
+    libxtst6
 
 # Nodejs 10 with npm install
 # https://github.com/nodesource/distributions#installation-instructions
@@ -62,11 +75,11 @@ RUN rm -fr /root/tmp
 ENV NODE_PATH /usr/lib/node_modules
 
 # Set the working directory
-WORKDIR /protractor/
+WORKDIR /puppeteer/
 # Copy the run sript/s from local folder to the container's related folder
 COPY /scripts/run-e2e-tests.sh /entrypoint.sh
 # Set the HOME environment variable for the test project
-ENV HOME=/protractor/project
+ENV HOME=/puppeteer/project
 # Set the file access permissions (read, write and access) recursively for the new folders
 RUN chmod -Rf 777 .
 # Container entry point
