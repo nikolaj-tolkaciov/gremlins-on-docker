@@ -1,4 +1,5 @@
-const puppeteer = require('puppeteer')
+// @ts-check
+const { test } = require('@playwright/test');
 const fs = require('fs')
 const mkdirp = require('mkdirp')
 const getDirName = require('path').dirname
@@ -31,31 +32,19 @@ class errorMessage {
   }
 }
 
-try {
-  (async () => {
-    const browser = await puppeteer.launch({
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--ignore-certificate-errors'
-      ]
-    })
-    const page = await browser.newPage()
-    await page.setViewport({ width: 1280, height: 800 })
-    await page.goto(settings.baseUrl, { waitUntil: 'networkidle2' })
-
+test.describe('FuzzTesting', () => {
+  test('release the Gremlins', async ({ page }) => {
+    await page.goto(settings.baseUrl, { waitUntil: 'domcontentloaded' })
     registerListeners(page)
     //Add any navigation or login steps bellow
+    await page.locator('#text >> text=Reject All').click();
 
     await executeGremlins(page)
     await storeLogsAndScreenshot(page)
     
-    await browser.close();
-  })()
-} catch (err) {
-  console.error(err)
-}
+    await page.close();
+  });
+});
 
 function registerListeners(page) {
   page.on('console', msg => {
@@ -63,28 +52,28 @@ function registerListeners(page) {
   })
 
   page.on('requestfailed', err => {
-    errorsMessage = new errorMessage(err.url() + ' ' + err.failure().errorText)
+    let errorsMessage = new errorMessage(err.url() + ' ' + err.failure().errorText)
     parseConsoleMessage(errorsMessage)
   })
 
   page.on('error', err => {
-    errorsMessage = new errorMessage(err)
+    let errorsMessage = new errorMessage(err)
     parseConsoleMessage(errorsMessage)
   })
 
   page.on('pageerror', err => {
-    errorsMessage = new errorMessage(err)
+    let errorsMessage = new errorMessage(err)
     parseConsoleMessage(errorsMessage)
   })
 }
 
 function parseConsoleMessage(msg) {
   let currentTime = new Date()
-  timestampString = currentTime.toLocaleTimeString('en-GB', { hour12: false })
+  let timestampString = currentTime.toLocaleTimeString('en-GB', { hour12: false })
 
   if (msg.type() === 'error') {
     errorsLogsString += timestampString + ' ' + msg.type() + ': ' + msg.text() + os.EOL
-  } else if (msg.type() === 'warning') {
+  } else if (msg.type() === 'warn') {
     warningsLogsString += timestampString + ' ' + msg.type() + ': ' + msg.text() + os.EOL
   } else if (settings.storeFullLogs) {
     fullLogsString += timestampString + ' ' + msg.type() + ': ' + msg.text() + os.EOL

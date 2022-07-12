@@ -6,11 +6,13 @@
 # Run with:
 # docker-compose up
 
-gremlins-on-docker:
-    build: .
-    container_name: puppeteer
-    privileged: true
-    shm_size: '512mb'
-    restart: unless-stopped
-    volumes:
-        - "./puppeteer/:/puppeteer/project/"
+services:
+    gremlins-on-docker:
+        platform: "linux/amd64"
+        build: .
+        container_name: playwright
+        privileged: true
+        shm_size: '512mb'
+        restart: unless-stopped
+        volumes:
+            - "./playwright/:/playwright/project/"
