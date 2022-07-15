@@ -16,3 +16,8 @@ services:
         restart: unless-stopped
         volumes:
             - "./playwright/:/playwright/project/"
+
+networks:
+    default:
+        name: docker-elk_elk
+        external: true
