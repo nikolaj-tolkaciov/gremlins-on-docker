@@ -14,9 +14,9 @@ const settings = {
   takeScreenshotAtTheEnd: true,
   storeLogs: true,
   storeFullLogs: true,
-  sendLogsToElasticSearch: true,
-  elasticUserName: 'elastic',
-  elasticPassword: 'changeme',
+  sendLogsToElasticSearch: false,
+  elasticUserName: '',
+  elasticPassword: '',
   gremlinExecuteScript: gremlinScript + generateExecutionScript(5)
 }
 
