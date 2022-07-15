@@ -12,6 +12,7 @@ const settings = {
   urlCheckIntervalInMinutes: 0.1,
   debugGremlins: true,
   takeScreenshotAtTheEnd: true,
+  storeLogs: true,
   storeFullLogs: true,
   sendLogsToElasticSearch: true,
   elasticUserName: 'elastic',
@@ -120,19 +121,21 @@ async function storeLogsAndScreenshot(page) {
   let today = new Date()
   let dateString =  today.toISOString().substring(0,10)
   
-  let warningFile = 'warnings_' + dateString + '.txt'
-  let errorFile = 'errors_' + dateString + '.txt'
-      
-  warningsLogsString = warningsLogsString.replace(/\\n/g, os.EOL)
-  errorsLogsString = errorsLogsString.replace(/\\n/g, os.EOL)
-  
-  await writeFile('logs/' + dateString + '/' + warningFile, warningsLogsString)
-  await writeFile('logs/' + dateString + '/' + errorFile, errorsLogsString)
-  
-  if(settings.storeFullLogs) {
-    let fullFile = 'full_' + dateString + '.txt'
-    fullLogsString = fullLogsString.replace(/\\n/g, os.EOL)
-    await writeFile('logs/' + dateString + '/' + fullFile, fullLogsString)
+  if(settings.storeLogs) {
+    let warningFile = 'warnings_' + dateString + '.txt'
+    let errorFile = 'errors_' + dateString + '.txt'
+        
+    warningsLogsString = warningsLogsString.replace(/\\n/g, os.EOL)
+    errorsLogsString = errorsLogsString.replace(/\\n/g, os.EOL)
+    
+    await writeFile('logs/' + dateString + '/' + warningFile, warningsLogsString)
+    await writeFile('logs/' + dateString + '/' + errorFile, errorsLogsString)
+    
+    if(settings.storeFullLogs) {
+      let fullFile = 'full_' + dateString + '.txt'
+      fullLogsString = fullLogsString.replace(/\\n/g, os.EOL)
+      await writeFile('logs/' + dateString + '/' + fullFile, fullLogsString)
+    }
   }
 
   if(settings.takeScreenshotAtTheEnd) {
