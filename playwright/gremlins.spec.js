@@ -1,5 +1,5 @@
 // @ts-check
-const { test } = require('@playwright/test');
+const { test, request } = require('@playwright/test');
 const fs = require('fs')
 const mkdirp = require('mkdirp')
 const getDirName = require('path').dirname
@@ -12,7 +12,11 @@ const settings = {
   urlCheckIntervalInMinutes: 0.1,
   debugGremlins: true,
   takeScreenshotAtTheEnd: true,
+  storeLogs: true,
   storeFullLogs: true,
+  sendLogsToElasticSearch: true,
+  elasticUserName: 'elastic',
+  elasticPassword: 'changeme',
   gremlinExecuteScript: gremlinScript + generateExecutionScript(5)
 }
 
@@ -36,6 +40,7 @@ test.describe('FuzzTesting', () => {
   test('release the Gremlins', async ({ page }) => {
     await page.goto(settings.baseUrl, { waitUntil: 'domcontentloaded' })
     registerListeners(page)
+
     //Add any navigation or login steps bellow
     await page.locator('#text >> text=Reject All').click();
 
@@ -67,16 +72,31 @@ function registerListeners(page) {
   })
 }
 
-function parseConsoleMessage(msg) {
+async function parseConsoleMessage(msg) {
   let currentTime = new Date()
   let timestampString = currentTime.toLocaleTimeString('en-GB', { hour12: false })
-
+  
   if (msg.type() === 'error') {
-    errorsLogsString += timestampString + ' ' + msg.type() + ': ' + msg.text() + os.EOL
+    errorsLogsString += timestampString + ', ' + msg.type() + ', ' + msg.text() + os.EOL
   } else if (msg.type() === 'warn') {
-    warningsLogsString += timestampString + ' ' + msg.type() + ': ' + msg.text() + os.EOL
+    warningsLogsString += timestampString + ', ' + msg.type() + ', ' + msg.text() + os.EOL
   } else if (settings.storeFullLogs) {
-    fullLogsString += timestampString + ' ' + msg.type() + ': ' + msg.text() + os.EOL
+    fullLogsString += timestampString + ', ' + msg.type() + ', ' + msg.text() + os.EOL
+  }
+
+  if(settings.sendLogsToElasticSearch) {
+    const context = await request.newContext();
+
+    context.post(`http://${settings.elasticUserName}:${settings.elasticPassword}@elasticsearch:9200/gremlins/_doc/?pretty=`, {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+      },
+      data: {
+        "timestamp": timestampString,
+        "type": msg.type(),
+        "message":  msg.text(),
+      }
+    });
   }
 
   if(settings.debugGremlins) {
@@ -101,19 +121,21 @@ async function storeLogsAndScreenshot(page) {
   let today = new Date()
   let dateString =  today.toISOString().substring(0,10)
   
-  let warningFile = 'warnings_' + dateString + '.txt'
-  let errorFile = 'errors_' + dateString + '.txt'
-      
-  warningsLogsString = warningsLogsString.replace(/\\n/g, os.EOL)
-  errorsLogsString = errorsLogsString.replace(/\\n/g, os.EOL)
-  
-  await writeFile('logs/' + dateString + '/' + warningFile, warningsLogsString)
-  await writeFile('logs/' + dateString + '/' + errorFile, errorsLogsString)
-  
-  if(settings.storeFullLogs) {
-    let fullFile = 'full_' + dateString + '.txt'
-    fullLogsString = fullLogsString.replace(/\\n/g, os.EOL)
-    await writeFile('logs/' + dateString + '/' + fullFile, fullLogsString)
+  if(settings.storeLogs) {
+    let warningFile = 'warnings_' + dateString + '.txt'
+    let errorFile = 'errors_' + dateString + '.txt'
+        
+    warningsLogsString = warningsLogsString.replace(/\\n/g, os.EOL)
+    errorsLogsString = errorsLogsString.replace(/\\n/g, os.EOL)
+    
+    await writeFile('logs/' + dateString + '/' + warningFile, warningsLogsString)
+    await writeFile('logs/' + dateString + '/' + errorFile, errorsLogsString)
+    
+    if(settings.storeFullLogs) {
+      let fullFile = 'full_' + dateString + '.txt'
+      fullLogsString = fullLogsString.replace(/\\n/g, os.EOL)
+      await writeFile('logs/' + dateString + '/' + fullFile, fullLogsString)
+    }
   }
 
   if(settings.takeScreenshotAtTheEnd) {
