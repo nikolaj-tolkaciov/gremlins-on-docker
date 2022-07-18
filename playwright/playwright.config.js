@@ -7,7 +7,7 @@ const { devices } = require('@playwright/test');
  */
 const config = {
   testDir: '.',
-  timeout: 10* 60 * 1000,
+  timeout: 10 * 60 * 1000,
   fullyParallel: false,
   retries: 0,
   workers: 1,
