@@ -17,7 +17,8 @@ services:
         volumes:
             - "./playwright/:/playwright/project/"
 
-networks:
-    default:
-        name: docker-elk_elk
-        external: true
+# Uncomment bellow If logs will be sent to elasticsearch via TCP
+#networks:
+#    default:
+#        name: docker-elk_elk
+#        external: true
