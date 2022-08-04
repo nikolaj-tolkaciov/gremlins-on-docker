@@ -19,6 +19,7 @@ The [Dockerfile](Dockerfile) was design based on the following projects:
 - You can tweak URL check interval by changing "urlCheckIntervalInMinutes" value. If your app under test is single page application you can match "urlCheckIntervalInMinutes" with "executionTimeInMinutes" in order not to use this feature
 - You can toggle full browser log writing to file by changing "storeFullLogs" parameter
 - You can send logs directly to Elastic Search by changing "sendLogsToElasticSearch" to true and filling in the "elasticUserName" and "elasticPassword"
+- You can change elastic search index name where all logs will be sent to by changing "elasticIndexName" value
 - You can dissable log storing by setting "storeLogs" to false
 
 <sub>Based on the [Playwright](https://hub.docker.com/_/microsoft-playwright)</sub>
