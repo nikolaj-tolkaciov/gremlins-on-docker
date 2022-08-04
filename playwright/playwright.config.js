@@ -20,7 +20,7 @@ const config = {
     actionTimeout: 0,
     trace: 'on-first-retry',
     launchOptions: {
-      args: ['--disable-setuid-sandbox', '--single-process', '--disable-dev-shm-usage']
+      args: ['--disable-setuid-sandbox', '--single-process', '--disable-dev-shm-usage', '--ignore-ssl-errors=yes', '--ignore-certificate-errors']
     }
   }
 };
