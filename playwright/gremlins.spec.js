@@ -15,6 +15,7 @@ const settings = {
   storeLogs: true,
   storeFullLogs: true,
   sendLogsToElasticSearch: false,
+  elasticIndexName: 'gremlins',
   elasticUserName: '',
   elasticPassword: '',
   gremlinExecuteScript: gremlinScript + generateExecutionScript(5)
