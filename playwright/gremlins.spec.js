@@ -15,6 +15,7 @@ const settings = {
   storeLogs: true,
   storeFullLogs: true,
   sendLogsToElasticSearch: false,
+  elasticIndexName: 'gremlins',
   elasticUserName: '',
   elasticPassword: '',
   gremlinExecuteScript: gremlinScript + generateExecutionScript(5)
@@ -87,7 +88,7 @@ async function parseConsoleMessage(msg) {
   if(settings.sendLogsToElasticSearch) {
     const context = await request.newContext();
 
-    context.post(`http://${settings.elasticUserName}:${settings.elasticPassword}@elasticsearch:9200/gremlins/_doc/?pretty=`, {
+    context.post(`http://${settings.elasticUserName}:${settings.elasticPassword}@elasticsearch:9200/${settings.elasticIndexName}/_doc/?pretty=`, {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
       },
