@@ -1,5 +1,5 @@
 // @ts-check
-const { test, request } = require('@playwright/test');
+const { test, request } = require('@playwright/test')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
 const getDirName = require('path').dirname
@@ -45,14 +45,14 @@ test.describe('FuzzTesting', () => {
     registerListeners(page)
 
     //Add any navigation or login steps bellow
-    await page.locator('#text >> text=Reject All').click();
+    await page.locator('#text >> text=Reject All').click()
 
     await executeGremlins(page)
     await storeLogsAndScreenshot(page)
     
-    await page.close();
-  });
-});
+    await page.close()
+  })
+})
 
 function registerListeners(page) {
   page.on('console', msg => {
@@ -110,7 +110,7 @@ async function executeGremlins(page) {
       lastUrl = currentUrl
       await page.evaluate(`${settings.gremlinExecuteScript}`)
     }
-    await new Promise(resolve => setTimeout(resolve, settings.urlCheckIntervalInMinutes * 60 * 1000));
+    await new Promise(resolve => setTimeout(resolve, settings.urlCheckIntervalInMinutes * 60 * 1000))
   }
 }
 
