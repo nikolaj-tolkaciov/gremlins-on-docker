@@ -44,7 +44,7 @@ test.describe('FuzzTesting', () => {
     await page.goto(settings.baseUrl, { waitUntil: 'domcontentloaded' })
     registerListeners(page)
 
-    //Add any navigation or login steps bellow
+    //Add any navigation or login steps below
     await page.locator('#text >> text=Reject All').click()
 
     await executeGremlins(page)
