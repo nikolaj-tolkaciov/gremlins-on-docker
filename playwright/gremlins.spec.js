@@ -1,10 +1,12 @@
 // @ts-check
-const { test, request } = require('@playwright/test');
+const { test, request } = require('@playwright/test')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
 const getDirName = require('path').dirname
 const os = require('os')
 const gremlinScript = require('./src/gremlin_script')
+const errorMessageType = 'error'
+const warningMessageType = 'warn'
 
 const settings = {
   baseUrl: 'https://www.youtube.com',
@@ -30,7 +32,7 @@ class errorMessage {
     this.textMsg = text
   }
   type() {
-    return 'error'
+    return errorMessageType
   }
   text() {
     return this.textMsg
@@ -43,14 +45,14 @@ test.describe('FuzzTesting', () => {
     registerListeners(page)
 
     //Add any navigation or login steps bellow
-    await page.locator('#text >> text=Reject All').click();
+    await page.locator('#text >> text=Reject All').click()
 
     await executeGremlins(page)
     await storeLogsAndScreenshot(page)
     
-    await page.close();
-  });
-});
+    await page.close()
+  })
+})
 
 function registerListeners(page) {
   page.on('console', msg => {
@@ -76,32 +78,26 @@ function registerListeners(page) {
 async function parseConsoleMessage(msg) {
   let currentTime = new Date()
   let timestampString = currentTime.toLocaleTimeString('en-GB', { hour12: false })
-  
-  if (msg.type() === 'error') {
-    errorsLogsString += timestampString + ', ' + msg.type() + ', ' + msg.text() + os.EOL
-  } else if (msg.type() === 'warn') {
-    warningsLogsString += timestampString + ', ' + msg.type() + ', ' + msg.text() + os.EOL
-  } else if (settings.storeFullLogs) {
-    fullLogsString += timestampString + ', ' + msg.type() + ', ' + msg.text() + os.EOL
+  let logString = timestampString + ', ' + msg.type() + ', ' + msg.text() + os.EOL
+
+  if(settings.debugGremlins) {
+    console.log(logString.slice(0, -1))
+  }
+
+  if(settings.storeLogs) {
+    switch (msg.type()) {
+      case errorMessageType:
+        errorsLogsString += logString
+      case warningMessageType:
+        warningsLogsString += logString
+      default:
+        if(settings.storeFullLogs) fullLogsString += logString
+    }
   }
 
   if(settings.sendLogsToElasticSearch) {
-    const context = await request.newContext();
-
-    context.post(`http://${settings.elasticUserName}:${settings.elasticPassword}@elasticsearch:9200/${settings.elasticIndexName}/_doc/?pretty=`, {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-      },
-      data: {
-        "timestamp": timestampString,
-        "type": msg.type(),
-        "message":  msg.text(),
-      }
-    });
-  }
-
-  if(settings.debugGremlins) {
-    console.log(msg.type() + ': ' + msg.text())
+    if(settings.storeFullLogs || [errorMessageType, warningMessageType].includes(msg.type()))
+      await sendLogs(msg, timestampString);
   }
 }
 
@@ -114,7 +110,7 @@ async function executeGremlins(page) {
       lastUrl = currentUrl
       await page.evaluate(`${settings.gremlinExecuteScript}`)
     }
-    await new Promise(resolve => setTimeout(resolve, settings.urlCheckIntervalInMinutes * 60 * 1000));
+    await new Promise(resolve => setTimeout(resolve, settings.urlCheckIntervalInMinutes * 60 * 1000))
   }
 }
 
@@ -151,6 +147,21 @@ async function writeFile(path, contents, cb) {
     if (err) return cb(err)
     return cb
   })
+}
+
+async function sendLogs(message, timeStamp) {
+  const context = await request.newContext()
+
+    context.post(`http://${settings.elasticUserName}:${settings.elasticPassword}@elasticsearch:9200/${settings.elasticIndexName}/_doc/?pretty=`, {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+      },
+      data: {
+        "timestamp": timeStamp,
+        "type": message.type(),
+        "message":  message.text(),
+      }
+    })
 }
 
 function generateExecutionScript(depth) {
